@@ -1,0 +1,14 @@
+services:
+  php:
+    image: event-flow-php:dev
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./backend:/var/www/backend
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
