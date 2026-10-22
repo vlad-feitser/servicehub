@@ -1,5 +1,7 @@
 FROM php:8.4.25-fpm-bookworm
 
+RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         $PHPIZE_DEPS \
         git \
