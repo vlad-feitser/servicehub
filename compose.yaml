@@ -62,6 +62,15 @@ services:
     networks:
       - app
 
+  node:
+    image: node:24.22.1-bookworm-slim
+    working_dir: /var/www/frontend
+    volumes:
+      - ./frontend:/var/www/frontend
+      - frontend-node-modules:/var/www/frontend/node_modules
+    networks:
+      - app
+
 networks:
   app:
     driver: bridge
@@ -69,3 +78,4 @@ networks:
 volumes:
   mysql-data:
   redis-data:
+  frontend-node-modules:
