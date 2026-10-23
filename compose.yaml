@@ -6,6 +6,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./backend:/var/www/backend
+      - backend-vendor:/var/www/backend/vendor
     networks:
       - app
 
@@ -79,3 +80,4 @@ volumes:
   mysql-data:
   redis-data:
   frontend-node-modules:
+  backend-vendor:
