@@ -1,11 +1,75 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 
+type HealthResponse = {
+  status: 'ok'
+}
+
+type HealthState =
+  | { status: 'loading' }
+  | { status: 'success'; data: HealthResponse }
+  | { status: 'error'; message: string }
+
 function App() {
   const [count, setCount] = useState(0)
+
+  const [health, setHealth] = useState<HealthState>({
+    status: 'loading'
+  })
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    const checkBackend = async(): Promise<void> => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL
+
+        if (!apiUrl) {
+          throw new Error('VITE_API_URL is not configured')
+        }
+
+        const response = await fetch(`${apiUrl}/api/health`, {
+          headers: {
+            Accept: 'application/json'
+          },
+          signal: controller.signal
+        })
+
+        if (!response.ok) {
+          throw new Error(`Backend returned ${response.status}`)
+        }
+
+        const data = (await response.json()) as HealthResponse
+
+        if (data.status !== 'ok') {
+          throw new Error('Invalid health response')
+        }
+
+        setHealth({
+          status: 'success',
+          data
+        })
+      } catch (error: unknown) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return
+        }
+
+        setHealth({
+          status: 'error',
+          message: error instanceof Error ? error.message : 'Unknown error'
+        })
+      }
+    }
+
+    void checkBackend()
+
+    return () => {
+      controller.abort()
+    }
+  }, [])
 
   return (
     <>
@@ -29,6 +93,16 @@ function App() {
           Count is {count}
         </button>
       </section>
+
+      {health.status === 'loading' && <p>Checking backend...</p>}
+
+      {health.status === 'error' && (
+        <p>Backend error: {health.message}</p>
+      )}
+
+      {health.status === 'success' && (
+        <p>Backend: {health.data.status}</p>
+      )}
 
       <div className="ticks"></div>
 
