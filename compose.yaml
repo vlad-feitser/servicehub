@@ -66,6 +66,9 @@ services:
   node:
     image: node:24.22.1-bookworm-slim
     working_dir: /var/www/frontend
+    command: npm run dev -- --host 0.0.0.0
+    ports:
+      - "127.0.0.1:${VITE_FORWARD_PORT}:5173"
     volumes:
       - ./frontend:/var/www/frontend
       - frontend-node-modules:/var/www/frontend/node_modules
