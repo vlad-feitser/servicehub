@@ -17,13 +17,13 @@ function App() {
   const [count, setCount] = useState(0)
 
   const [health, setHealth] = useState<HealthState>({
-    status: 'loading'
+    status: 'loading',
   })
 
   useEffect(() => {
     const controller = new AbortController()
 
-    const checkBackend = async(): Promise<void> => {
+    const checkBackend = async (): Promise<void> => {
       try {
         const apiUrl = import.meta.env.VITE_API_URL
 
@@ -33,9 +33,9 @@ function App() {
 
         const response = await fetch(`${apiUrl}/api/health`, {
           headers: {
-            Accept: 'application/json'
+            Accept: 'application/json',
           },
-          signal: controller.signal
+          signal: controller.signal,
         })
 
         if (!response.ok) {
@@ -50,7 +50,7 @@ function App() {
 
         setHealth({
           status: 'success',
-          data
+          data,
         })
       } catch (error: unknown) {
         if (error instanceof DOMException && error.name === 'AbortError') {
@@ -59,7 +59,7 @@ function App() {
 
         setHealth({
           status: 'error',
-          message: error instanceof Error ? error.message : 'Unknown error'
+          message: error instanceof Error ? error.message : 'Unknown error',
         })
       }
     }
@@ -85,24 +85,16 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
+        <button type="button" className="counter" onClick={() => setCount((count) => count + 1)}>
           Count is {count}
         </button>
       </section>
 
       {health.status === 'loading' && <p>Checking backend...</p>}
 
-      {health.status === 'error' && (
-        <p>Backend error: {health.message}</p>
-      )}
+      {health.status === 'error' && <p>Backend error: {health.message}</p>}
 
-      {health.status === 'success' && (
-        <p>Backend: {health.data.status}</p>
-      )}
+      {health.status === 'success' && <p>Backend: {health.data.status}</p>}
 
       <div className="ticks"></div>
 
@@ -137,11 +129,7 @@ function App() {
           <ul>
             <li>
               <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#github-icon"></use>
                 </svg>
                 GitHub
@@ -149,11 +137,7 @@ function App() {
             </li>
             <li>
               <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#discord-icon"></use>
                 </svg>
                 Discord
@@ -161,11 +145,7 @@ function App() {
             </li>
             <li>
               <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#x-icon"></use>
                 </svg>
                 X.com
@@ -173,11 +153,7 @@ function App() {
             </li>
             <li>
               <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#bluesky-icon"></use>
                 </svg>
                 Bluesky
