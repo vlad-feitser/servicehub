@@ -1,4 +1,4 @@
-.PHONY: php-shell permissions test
+.PHONY: php-shell permissions test analyse
 
 php-shell:
 	docker compose exec -u www-data php bash
@@ -9,3 +9,6 @@ permissions:
 
 test:
 	docker compose exec -u www-data php php artisan test --compact
+
+analyse:
+	docker compose exec -u www-data php vendor/bin/phpstan analyse --memory-limit=1G
