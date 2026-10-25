@@ -1,6 +1,6 @@
 services:
   php:
-    image: event-flow-php:dev
+    image: servicehub-php:dev
     build:
       context: .
       dockerfile: docker/php/Dockerfile
