@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Event Flow Admin')</title>
+    <title>
+        @hasSection('title')
+            @yield('title') | ServiceHub Admin
+        @else
+            ServiceHub Admin
+        @endif
+    </title>
 </head>
 <body>
     <main>
